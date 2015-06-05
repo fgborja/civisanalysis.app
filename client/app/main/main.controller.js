@@ -1,27 +1,17 @@
 'use strict';
 
 angular.module('civisanalysisApp')
-  .controller('MainCtrl', function ($scope, $http, socket) {
-    $scope.awesomeThings = [];
+  .controller('MainCtrl', function ($scope, $http) {
+    $scope.rollCalls = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('thing', $scope.awesomeThings);
+	var lt = new Date().toISOString().substr(0,10);
+
+	var gte = new Date();
+		gte.setMonth(gte.getMonth()-1)
+		gte= gte.toISOString().substr(0,10);
+
+    $http.get('/api/rollcalls?date[gte]='+gte+'&date[lt]='+lt).success(function(rollCalls) {
+      $scope.rollCalls = rollCalls;
     });
 
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
-
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
-    });
   });

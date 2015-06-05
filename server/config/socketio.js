@@ -18,6 +18,8 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/motion/motion.socket').register(socket);
+  require('../api/rollCall/rollCall.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
 }
 

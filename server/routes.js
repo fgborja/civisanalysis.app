@@ -9,8 +9,12 @@ var errors = require('./components/errors');
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/motions', require('./api/motion'));
+  app.use('/api/rollCalls', require('./api/rollCall'));
   app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
+
+  app.use('/api/populateDB', require('./api/populateDB'));
 
   app.use('/auth', require('./auth'));
   
